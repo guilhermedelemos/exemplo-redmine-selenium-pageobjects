@@ -9,12 +9,20 @@ public class ProjectsPage extends BasePage {
     @FindBy(tagName = "h2")
     WebElement title;
     
+    @FindBy(css = "#content > div.contextual > a.icon.icon-add")
+    WebElement newProject;
+    
     public ProjectsPage(WebDriver driver) {
         super(driver);
     }
     
     public String getTitle() {
         return title.getText();
+    }
+    
+    public NewProjectPage clickNewProject() {
+        newProject.click();
+        return new NewProjectPage(driver);
     }
     
 }

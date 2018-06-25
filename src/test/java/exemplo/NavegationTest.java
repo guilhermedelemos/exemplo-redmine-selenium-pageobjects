@@ -10,8 +10,10 @@ import exemplo.po.SigninPage;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -48,20 +50,25 @@ public class NavegationTest {
         PublicMenu menu = pagina.getMenu();
 
         PublicRedminePage home = menu.goToHome();
-        assertEquals("Página inicial", home.getTitle());
+        //assertEquals("Página inicial", home.getTitle());
+        assertEquals("Home", home.getTitle());
 
         ProjectsPage projects = menu.goToProjects();
-        assertEquals("Projetos", projects.getTitle());
+        //assertEquals("Projetos", projects.getTitle());
+        assertEquals("Projects", projects.getTitle());
 
         HelpPage help = menu.goToHelp();
-        assertEquals("Redmine guide", help.getTitle());
+        //assertEquals("Redmine guide", help.getTitle());
+        assertTrue(help.getTitle().contains("Redmine guide"));
         menu.goToHome();
 
         SigninPage signin = menu.goToSigninPage();
-        assertEquals("Usuário:", signin.getTitle());
+        //assertEquals("Usuário:", signin.getTitle());
+        assertEquals("Login:", signin.getTitle());
 
         RegisterPage register = menu.goToRegisterPage();
-        assertEquals("Cadastre-se", register.getTitle());
+        //assertEquals("Cadastre-se", register.getTitle());
+        assertEquals("Register", register.getTitle());
     }
 
     @Test
@@ -70,17 +77,22 @@ public class NavegationTest {
         PublicMenu menu = pagina.getMenu();
 
         SigninPage signin = menu.goToSigninPage();
-        assertEquals("Usuário:", signin.getTitle());
+        //assertEquals("Usuário:", signin.getTitle());
+        assertEquals("Login:", signin.getTitle());
 
         PrivateRedminePage home = signin.validLogin();
         assertEquals("Página inicial", home.getMenu().goToHome().getTitle());
         assertEquals("Minha página", home.getMenu().goToMyPage().getTitle());
         assertEquals("Projetos", home.getMenu().goToProjects().getTitle());
-        assertEquals("Redmine guide", home.getMenu().goToHelp().getTitle());
+        //assertEquals("Redmine guide", home.getMenu().goToHelp().getTitle());
+        assertTrue(home.getMenu().goToHelp().getTitle().contains("Redmine guide"));
+
         // volta para o DEMO.redmine.org, o help é centralizado no redmine.org
         home.goTo();
+        //assertEquals("Minha conta", home.getMenu().goToMyAccount().getTitle());
+        //assertEquals("Página inicial", home.getMenu().goToSignOut().getTitle());
         assertEquals("Minha conta", home.getMenu().goToMyAccount().getTitle());
-        assertEquals("Página inicial", home.getMenu().goToSignOut().getTitle());
+        assertEquals("Home", home.getMenu().goToSignOut().getTitle());
     }
 
 }
