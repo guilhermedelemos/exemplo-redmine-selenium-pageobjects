@@ -6,23 +6,25 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class PublicMenu extends BasePage {
+public class PrivateMenu extends BasePage {
 
     @FindBy(css = ".home")
     WebElement home;
+    @FindBy(css = ".my-page")
+    WebElement myPage;
     @FindBy(css = "a.projects")
     WebElement projects;
     @FindBy(css = ".help")
     WebElement help;
-    @FindBy(css = ".login")
-    WebElement signin;
-    @FindBy(css = ".register")
-    WebElement register;
+    @FindBy(css = ".my-account")
+    WebElement myAccount;
+    @FindBy(css = ".logout")
+    WebElement signOut;
 
-    public PublicMenu(WebDriver driver) {
+    public PrivateMenu(WebDriver driver) {
         super(driver);
     }
-    
+
     private void clickMenuOption(WebElement menuOption) {
         if (menuOption.isDisplayed()) {
             menuOption.click();
@@ -31,33 +33,37 @@ public class PublicMenu extends BasePage {
             wait.until(ExpectedConditions.elementToBeClickable(menuOption));
             menuOption.click();
         }
-        //wait.until(ExpectedConditions.pelementToBeClickable(menuOption));
         //wait.until( (ExpectedCondition<Boolean>) (WebDriver d) -> d.findElement(By.xpath("/html/body")).isDisplayed() );
     }
-    
-    public PublicRedminePage goToHome() {
+
+    public PrivateRedminePage goToHome() {
         clickMenuOption(home);
-        return new PublicRedminePage(driver);
+        return new PrivateRedminePage(driver);
     }
-    
+
+    public MyPage goToMyPage() {
+        clickMenuOption(myPage);
+        return new MyPage(driver);
+    }
+
     public ProjectsPage goToProjects() {
         clickMenuOption(projects);
         return new ProjectsPage(driver);
     }
-    
+
     public HelpPage goToHelp() {
         clickMenuOption(help);
         return new HelpPage(driver);
     }
-    
-    public SigninPage goToSigninPage() {
-        clickMenuOption(signin);
-        return new SigninPage(driver);
+
+    public MyAccountPage goToMyAccount() {
+        clickMenuOption(myAccount);
+        return new MyAccountPage(driver);
     }
-    
-    public RegisterPage goToRegisterPage() {
-        clickMenuOption(register);
-        return new RegisterPage(driver);
+
+    public PublicRedminePage goToSignOut() {
+        clickMenuOption(signOut);
+        return new PublicRedminePage(driver);
     }
-    
+
 }
