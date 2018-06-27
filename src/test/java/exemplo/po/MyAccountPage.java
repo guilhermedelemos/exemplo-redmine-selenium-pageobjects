@@ -44,5 +44,9 @@ public class MyAccountPage extends BasePage {
     public boolean isSavedSuccessfully() {
         return alert_notice.getText().contains("Account was successfully updated.");
     }
+    
+    public String getAlertNotice() {
+        return this.alert_notice.getText();
+    }
 
 }

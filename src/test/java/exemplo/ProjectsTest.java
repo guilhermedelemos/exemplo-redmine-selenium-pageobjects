@@ -18,8 +18,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 public class ProjectsTest {
 
@@ -46,7 +44,6 @@ public class ProjectsTest {
         PublicMenu menu = pagina.getMenu();
 
         SigninPage signin = menu.goToSigninPage();
-        //assertEquals("Usuário:", signin.getTitle());
         assertEquals("Login:", signin.getTitle());
 
         PrivateRedminePage home = signin.validLogin();
