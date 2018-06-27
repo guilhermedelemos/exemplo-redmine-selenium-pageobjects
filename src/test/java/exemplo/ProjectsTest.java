@@ -7,6 +7,7 @@ import exemplo.po.ProjectsPage;
 import exemplo.po.PublicMenu;
 import exemplo.po.PublicRedminePage;
 import exemplo.po.SigninPage;
+import exemplo.util.WebDriverBuilder;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,13 +32,7 @@ public class ProjectsTest {
 
     @Before
     public void setUp() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        // Se usar headless, usar versão inglês da página nos asserts
-        //chromeOptions.addArguments("headless");
-        chromeOptions.addArguments("window-size=1200x600");
-        chromeOptions.addArguments("start-maximized");
-        driver = new ChromeDriver(chromeOptions);
-        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver = WebDriverBuilder.buildChromeDriver(false, "en-US");
     }
 
     @After
@@ -55,17 +50,16 @@ public class ProjectsTest {
         assertEquals("Login:", signin.getTitle());
 
         PrivateRedminePage home = signin.validLogin();
-        assertEquals("Página inicial", home.getMenu().goToHome().getTitle());
-        
+        assertEquals("Home", home.getMenu().goToHome().getTitle());
+
         ProjectsPage projects = home.getMenu().goToProjects();
-        assertEquals("Projetos", home.getMenu().goToProjects().getTitle());
-        
+        assertEquals("Projects", home.getMenu().goToProjects().getTitle());
+
         NewProjectPage newproject = projects.clickNewProject();
-        
+
         ProjectSettingsPage projectsettings = newproject.fillInputDataAndSave("Projeto " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()), "Projeto teste");
 
         assertTrue(projectsettings.isSavedSuccessfully());
-        
     }
 
 }

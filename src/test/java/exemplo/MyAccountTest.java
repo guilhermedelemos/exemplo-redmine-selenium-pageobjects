@@ -1,16 +1,13 @@
 package exemplo;
 
 import exemplo.po.MyAccountPage;
-import exemplo.po.NewProjectPage;
 import exemplo.po.PrivateRedminePage;
-import exemplo.po.ProjectSettingsPage;
-import exemplo.po.ProjectsPage;
 import exemplo.po.PublicMenu;
 import exemplo.po.PublicRedminePage;
 import exemplo.po.SigninPage;
+import exemplo.util.WebDriverBuilder;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,8 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 public class MyAccountTest {
 
@@ -32,13 +27,7 @@ public class MyAccountTest {
 
     @Before
     public void setUp() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        // Se usar headless, usar versão inglês da página nos asserts
-        //chromeOptions.addArguments("headless");
-        chromeOptions.addArguments("window-size=1200x600");
-        chromeOptions.addArguments("start-maximized");
-        driver = new ChromeDriver(chromeOptions);
-        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver = WebDriverBuilder.buildChromeDriver(false, "en-US");
     }
 
     @After
@@ -56,15 +45,16 @@ public class MyAccountTest {
         assertEquals("Login:", signin.getTitle());
 
         PrivateRedminePage home = signin.validLogin();
-        assertEquals("Página inicial", home.getMenu().goToHome().getTitle());
-        
+        assertEquals("Home", home.getMenu().goToHome().getTitle());
+
         MyAccountPage myaccount = home.getMenu().goToMyAccount();
-        assertEquals("Minha conta", myaccount.getTitle());
-        
-        myaccount = myaccount.clearAndFillInputDataAndSave("Andre", "Endo");
+        assertEquals("My account", myaccount.getTitle());
+
+        String nome = "Andre " + ThreadLocalRandom.current().nextInt(1, 1000);
+        String sobrenome = "Endo " + ThreadLocalRandom.current().nextInt(1, 1000);
+        myaccount = myaccount.clearAndFillInputDataAndSave(nome, sobrenome);
 
         assertTrue(myaccount.isSavedSuccessfully());
-        
     }
 
 }
